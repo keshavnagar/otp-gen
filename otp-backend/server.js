@@ -8,7 +8,8 @@ app.use(bodyParser.json());
 app.post("/send-otp",(req,res) => {
     const {phone} = req.body;
     console.log(`otp request received for phone : ${phone}`)
-    const otp = "1234";
+    const otp =  Math.floor(1000 + Math.random() * 9000).toString();
+    console.log(`Generated OTP: ${otp}`);
     res.json({otp})
   
 })
