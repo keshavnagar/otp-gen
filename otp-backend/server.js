@@ -5,6 +5,9 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+
+let otpStorage = {}; 
+
 app.post("/send-otp",(req,res) => {
     const {phone} = req.body;
     console.log(`otp request received for phone : ${phone}`)
