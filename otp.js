@@ -5,7 +5,7 @@ function fetchPhoneNumber() {
   var phoneNumber = document.getElementById("phoneNumber").value;
   console.log(phoneNumber);
   //ab apan ek fake server banayenge :
-  fetch("https://jsonplaceholder.typicode.com/posts", {
+  fetch("http://localhost:5000/send-otp", {
     // Backend URL
     method: "POST",
     headers: {
@@ -16,8 +16,9 @@ function fetchPhoneNumber() {
     .then((response) => response.json()) // Response parse karna
     .then(
       (data) => {
-        receivedOtp = "1234";
-        console.log("OTP Sent:", data);
+        console.log("Full Response from Backend:", data);
+        receivedOtp = data.otp;
+        console.log("OTP Sent:", receivedOtp);
         verifyOtpButton.disabled = false;
       } /* Filhal fake OTP store kar rahe hai (backend yeh return karega)*/
       
@@ -42,13 +43,30 @@ function fetchOtp () {
     verifyOtpButton.disabled = true;
 }
 
+function verifyOTP() {
+    const otp = document.getElementById("otpInput").value;
+    
+    fetch("http://localhost:5000/verify-otp", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ otp }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data); // Check response in console
+        alert(data.message);
+    })
+    .catch(error => console.error("Error:", error));
+}
+
+
 
 
 var verifyOtpButton = document.getElementById("verifyOtp");
 verifyOtpButton.disabled = true; 
 verifyOtpButton.addEventListener("click", fetchOtp)
-
-
 
 
 
